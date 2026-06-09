@@ -1,0 +1,507 @@
+/* ============================================================
+   CZVR Modern UI — layered on top of existing Bootstrap/MDB
+   Covers: navbar, cards, dashboard, dark/light mode toggle
+   ============================================================ */
+
+/* ── CSS Variables (dark mode default) ── */
+:root {
+    --czvr-green:        #6CC24A;
+    --czvr-green-dark:   #4f9634;
+    --czvr-green-glow:   rgba(108, 194, 74, 0.18);
+
+    --bg-primary:        #141414;
+    --bg-secondary:      #1e1e1e;
+    --bg-card:           #252525;
+    --bg-card-hover:     #2d2d2d;
+    --bg-nav:            rgba(18, 18, 18, 0.92);
+    --bg-footer:         #0d0d0d;
+
+    --text-primary:      #f0f0ee;
+    --text-secondary:    #a0a09e;
+    --text-muted:        #6b6b69;
+
+    --border-color:      rgba(255,255,255,0.08);
+    --shadow-sm:         0 2px 8px rgba(0,0,0,0.35);
+    --shadow-md:         0 4px 20px rgba(0,0,0,0.45);
+    --shadow-card:       0 2px 12px rgba(0,0,0,0.4);
+
+    --radius-sm:         6px;
+    --radius-md:         10px;
+    --radius-lg:         16px;
+
+    --nav-height:        60px;
+    --transition:        0.2s ease;
+}
+
+/* ── Light mode ── */
+body.light-mode {
+    --bg-primary:        #f4f5f7;
+    --bg-secondary:      #ffffff;
+    --bg-card:           #ffffff;
+    --bg-card-hover:     #f8f9fa;
+    --bg-nav:            rgba(255,255,255,0.95);
+    --bg-footer:         #1e1e1e;
+
+    --text-primary:      #1a1a1a;
+    --text-secondary:    #555555;
+    --text-muted:        #888888;
+
+    --border-color:      rgba(0,0,0,0.1);
+    --shadow-sm:         0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md:         0 4px 20px rgba(0,0,0,0.12);
+    --shadow-card:       0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* ── Base ── */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════
+   1. NAVBAR
+═══════════════════════════════════════════ */
+
+.navbar.main-colour {
+    background-color: var(--bg-nav) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--nav-height);
+    min-height: var(--nav-height) !important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background-color var(--transition), box-shadow var(--transition);
+    box-shadow: var(--shadow-sm);
+    padding: 0 1rem;
+}
+
+/* Scrolled state — slightly more opaque */
+.navbar.main-colour.scrolled {
+    background-color: rgba(14, 14, 14, 0.98) !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+
+body.light-mode .navbar.main-colour.scrolled {
+    background-color: rgba(255,255,255,0.98) !important;
+}
+
+/* Nav links */
+.navbar .nav-link {
+    color: var(--text-primary) !important;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 0.45rem 0.75rem !important;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background-color var(--transition);
+    position: relative;
+}
+
+.navbar .nav-link:hover {
+    color: var(--czvr-green) !important;
+    background-color: var(--czvr-green-glow);
+}
+
+.navbar .nav-item.active > .nav-link,
+.navbar .nav-link.active {
+    color: var(--czvr-green) !important;
+}
+
+/* Active underline indicator */
+.navbar .nav-item.active > .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 2px;
+    background: var(--czvr-green);
+    border-radius: 2px;
+}
+
+/* Dropdown */
+.navbar .dropdown-menu {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: 0.4rem 0 !important;
+    margin-top: 4px !important;
+    min-width: 180px;
+}
+
+.navbar .dropdown-item {
+    color: var(--text-primary) !important;
+    font-size: 0.875rem;
+    padding: 0.5rem 1.1rem !important;
+    transition: background-color var(--transition), color var(--transition);
+    border-radius: 0;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: var(--czvr-green-glow) !important;
+    color: var(--czvr-green) !important;
+}
+
+.navbar .dropdown-item.active {
+    background-color: var(--czvr-green) !important;
+    color: #fff !important;
+}
+
+/* Toggler */
+.navbar-toggler {
+    border-color: var(--border-color) !important;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28240,240,238,0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+body.light-mode .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2826,26,26,0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Mobile nav collapse */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background-color: var(--bg-card);
+        border-radius: var(--radius-md);
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
+    }
+
+    .navbar .nav-link {
+        padding: 0.6rem 0.75rem !important;
+    }
+}
+
+/* User avatar pill in navbar */
+.navbar .user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 4px 12px 4px 4px;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.navbar .user-pill:hover {
+    border-color: var(--czvr-green);
+    background: var(--czvr-green-glow);
+}
+
+.navbar .user-pill img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.navbar .user-pill span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Dark mode toggle button */
+#darkModeToggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+#darkModeToggle:hover {
+    border-color: var(--czvr-green);
+    color: var(--czvr-green);
+    background: var(--czvr-green-glow);
+}
+
+/* ═══════════════════════════════════════════
+   2. CARDS (global improvement)
+═══════════════════════════════════════════ */
+
+.card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md) !important;
+    border-color: rgba(108, 194, 74, 0.2) !important;
+}
+
+.card-body {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 0.9rem 1.25rem !important;
+}
+
+.card-footer {
+    background-color: transparent !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* Card background (homepage hero cards) */
+.card-background {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(37,37,37,0.95) 100%) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* ═══════════════════════════════════════════
+   3. DASHBOARD
+═══════════════════════════════════════════ */
+
+/* Page background */
+#czqoContent {
+    background-color: var(--bg-primary);
+    min-height: calc(100vh - var(--nav-height));
+}
+
+/* Dashboard section header */
+.dashboard-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Stat / info pills */
+.dash-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--czvr-green-glow);
+    border: 1px solid rgba(108,194,74,0.25);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--czvr-green);
+}
+
+/* Accordion modernization */
+.accordion {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-sm) !important;
+    margin-bottom: 4px;
+    transition: background-color var(--transition);
+}
+
+.accordion:hover {
+    background-color: var(--bg-card-hover) !important;
+    color: var(--czvr-green) !important;
+}
+
+.panel {
+    background-color: var(--bg-secondary) !important;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border: 1px solid var(--border-color);
+    border-top: none;
+}
+
+/* List group */
+.list-group-item {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: background-color var(--transition);
+}
+
+.list-group-item:hover {
+    background-color: var(--bg-card-hover) !important;
+}
+
+.list-group-item.active {
+    background-color: var(--czvr-green) !important;
+    border-color: var(--czvr-green) !important;
+    color: #fff !important;
+}
+
+/* Badges */
+.badge.main-colour {
+    background-color: var(--czvr-green) !important;
+    color: #fff !important;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    padding: 3px 8px;
+}
+
+/* Tables */
+.table {
+    color: var(--text-primary) !important;
+}
+
+.table thead th {
+    border-bottom: 2px solid var(--border-color) !important;
+    color: var(--text-muted) !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.table td, .table th {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* Form controls */
+.form-control {
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-sm) !important;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--czvr-green) !important;
+    box-shadow: 0 0 0 3px var(--czvr-green-glow) !important;
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Modals */
+.modal-content {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* ═══════════════════════════════════════════
+   4. FOOTER
+═══════════════════════════════════════════ */
+
+.page-footer {
+    background-color: var(--bg-footer) !important;
+    border-top: 1px solid var(--border-color);
+}
+
+.page-footer p,
+.page-footer a {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+}
+
+.page-footer a:hover {
+    color: var(--czvr-green) !important;
+}
+
+/* ═══════════════════════════════════════════
+   5. BUTTONS
+═══════════════════════════════════════════ */
+
+.btn-primary {
+    background-color: var(--czvr-green) !important;
+    border-color: var(--czvr-green) !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--czvr-green-dark) !important;
+    border-color: var(--czvr-green-dark) !important;
+}
+
+.btn-outline-primary {
+    border-color: var(--czvr-green) !important;
+    color: var(--czvr-green) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--czvr-green) !important;
+    color: #fff !important;
+}
+
+/* ═══════════════════════════════════════════
+   6. HOMEPAGE HERO CARDS
+═══════════════════════════════════════════ */
+
+.card-background {
+    background: rgba(30, 30, 30, 0.88) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card-background:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+.card-background .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+/* ═══════════════════════════════════════════
+   7. SCROLLBAR
+═══════════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--czvr-green); }
+
+/* ═══════════════════════════════════════════
+   8. UTILITY
+═══════════════════════════════════════════ */
+
+.text-colour { color: var(--text-primary) !important; }
+.text-muted   { color: var(--text-muted) !important; }
+.blue-text    { color: var(--czvr-green) !important; }
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+/* Smooth page load */
+body { opacity: 0; animation: fadeIn 0.25s ease forwards; }
+@keyframes fadeIn { to { opacity: 1; } }

@@ -44,6 +44,8 @@
         <link rel="stylesheet" href="{{ asset('css/jquery.cssemoticons.css') }}">
         <!-- IntroJS -->
         <link rel="stylesheet" href="{{ asset('introjs/introjs.min.css') }}">
+        <!-- Modern UI layer -->
+        <link rel="stylesheet" href="{{ asset('css/czvr-modern.css') }}">
         <!-- jQuery (must load before Bootstrap/MDB) -->
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -158,8 +160,11 @@
                         @endunless
                         @auth
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{auth()->user()->avatar()}}" style="height: 27px; width: 27px; margin-right: 7px; margin-bottom: 3px; border-radius: 50%;">&nbsp;<span class="font-weight-bold">{{auth()->user()->fullName("F")}}</span>
+                            <a class="nav-link dropdown-toggle p-0" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="user-pill">
+                                    <img src="{{auth()->user()->avatar()}}" alt="">
+                                    <span>{{auth()->user()->fullName("F")}}</span>
+                                </span>
                             </a>
 
                             <div class="dropdown-menu dropdown-default py-0" aria-labelledby="navbarDropdownMenuLink-333">
@@ -189,6 +194,11 @@
                             <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#discordTopModal" target="_BLANK" >
                                 <i style="font-size: 1.7em;" class="fab fa-discord"></i>
                             </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ml-2">
+                            <button id="darkModeToggle" title="Toggle dark/light mode" aria-label="Toggle dark/light mode">
+                                <i class="fas fa-moon"></i>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -382,6 +392,43 @@
     </script>
     <script>
         $("blockquote").addClass('blockquote');
+    </script>
+    <script>
+        // Dark/light mode toggle
+        (function() {
+            const toggle = document.getElementById('darkModeToggle');
+            const icon = toggle ? toggle.querySelector('i') : null;
+            const saved = localStorage.getItem('czvrTheme');
+
+            function applyTheme(mode) {
+                if (mode === 'light') {
+                    document.body.classList.add('light-mode');
+                    if (icon) { icon.classList.replace('fa-moon', 'fa-sun'); }
+                } else {
+                    document.body.classList.remove('light-mode');
+                    if (icon) { icon.classList.replace('fa-sun', 'fa-moon'); }
+                }
+            }
+
+            applyTheme(saved || 'dark');
+
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    const isLight = document.body.classList.contains('light-mode');
+                    const next = isLight ? 'dark' : 'light';
+                    localStorage.setItem('czvrTheme', next);
+                    applyTheme(next);
+                });
+            }
+
+            // Sticky navbar scroll shadow
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    navbar.classList.toggle('scrolled', window.scrollY > 10);
+                }, { passive: true });
+            }
+        })();
     </script>
     </body>
 </html>
