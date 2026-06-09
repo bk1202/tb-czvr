@@ -22,7 +22,7 @@
         <meta name="description" content="@yield('description', '')">
         <meta property="og:title" content="@yield('title', 'Vancouver FIR')">
         <meta property="og:description" content="@yield('description', '')">
-        <meta property="og:image" content="@yield('image', '{{ asset('CZVR_Colour_Long.png') }}')">
+        <meta property="og:image" content="@yield('image', asset('CZVR_Colour_Long.png'))">
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <!-- Core CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
