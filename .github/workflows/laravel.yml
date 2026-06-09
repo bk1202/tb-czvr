@@ -27,10 +27,10 @@ jobs:
         echo AIRPORT_API_KEY=${{ secrets.AIRPORT_API_KEY }} >> .env
 
     - name: Install PHP dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Install JS dependencies
-      run: npm ci
+      run: npm install
 
     - name: Build frontend assets
       run: npm run build
