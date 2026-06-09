@@ -88,6 +88,12 @@ body.light-mode .navbar.main-colour.scrolled {
     background-color: rgba(255,255,255,0.98) !important;
 }
 
+/* Hide MDB/Bootstrap dropdown carets — replaced with chevron via FA below */
+.navbar .dropdown-toggle::after,
+.navbar .dropdown-toggle::before {
+    display: none !important;
+}
+
 /* Nav links */
 .navbar .nav-link {
     color: var(--text-primary) !important;
@@ -411,6 +417,50 @@ body.light-mode .navbar-toggler-icon {
 .modal-footer {
     border-top: 1px solid var(--border-color) !important;
 }
+
+/* Nav chevron icon on dropdown items */
+.navbar .nav-link .nav-chevron {
+    font-size: 0.6rem;
+    margin-left: 4px;
+    opacity: 0.5;
+    vertical-align: middle;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar .nav-item.show > .nav-link .nav-chevron,
+.navbar .nav-link[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: var(--czvr-green);
+}
+
+/* Active dropdown item — green left border */
+.navbar .dropdown-item.active,
+.navbar .dropdown-item:active {
+    border-left: 3px solid var(--czvr-green) !important;
+    padding-left: calc(1.1rem - 3px) !important;
+}
+
+/* Dropdown divider */
+.navbar .dropdown-divider {
+    border-color: var(--border-color) !important;
+    margin: 0.3rem 0 !important;
+}
+
+/* Alert / site-wide banner */
+.alert {
+    border-radius: 0 !important;
+    border: none !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* Flash messages (success/error/info) */
+.alert-success { background-color: rgba(108,194,74,0.15) !important; color: #8de066 !important; border-left: 3px solid var(--czvr-green) !important; }
+.alert-danger  { background-color: rgba(220,53,69,0.15)  !important; color: #f07080 !important; border-left: 3px solid #dc3545 !important; }
+.alert-info    { background-color: rgba(23,162,184,0.15)  !important; color: #63d0de !important; border-left: 3px solid #17a2b8 !important; }
+.alert-warning { background-color: rgba(255,193,7,0.15)  !important; color: #ffd85e !important; border-left: 3px solid #ffc107 !important; }
 
 /* ═══════════════════════════════════════════
    4. FOOTER
