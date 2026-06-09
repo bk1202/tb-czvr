@@ -153,8 +153,8 @@
                     <ul class="navbar-nav ml-auto nav-flex-icons">
                         @unless (auth()->check())
                         <li class="nav-item d-flex align-items-center">
-                            <a href="{{route('auth.connect.login')}}" class="nav-link waves-effect waves-light">
-                                <i class="fas fa-sign-in-alt"></i>&nbsp;Login
+                            <a href="{{route('auth.connect.login')}}" class="btn btn-login">
+                                <i class="fas fa-sign-in-alt mr-1"></i> Login with VATSIM
                             </a>
                         </li>
                         @endunless
@@ -244,32 +244,58 @@
         @yield('content')
     </div>
     <!-- Footer -->
-    <footer class="page-footer text-light font-small py-4 {{Request::is('/dashboard') ? 'mt-5' : ''}}">
-        <div class="container">
-            <p style="color:white">For Flight Simulation Use Only - Not to be used for real-world navigation. By using this site, you agree to hold harmless and indemnify the owners and authors of these web pages, those listed on these pages, and all pages that this site that may be pointed to (i.e. external links).</p>
-            <p style="color:white">Copyright © {{ date('Y') }} Vancouver FIR | All Rights Reserved</p>
-            <div class="flex-left mt-3">
-            <a href="{{route('about')}}">Github</a>
-                &nbsp;
-                •
-                &nbsp;
-                <a href="{{route('feedback.create')}}">Feedback</a>
-                &nbsp;
-                •
-                &nbsp;
-                <a href="{{route('privacy')}}">Privacy Policy</a>
-                &nbsp;
-                •
-                &nbsp;
-                <a href="{{route('branding')}}">Branding</a>
-                &nbsp;
-                •
-                &nbsp;
-                <a href="https://www.vatcan.ca">VATCAN</a>
-                &nbsp;
-                •
-                &nbsp;
-                <a href="https://www.vatsim.net">VATSIM</a>
+    <footer class="page-footer">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <img src="{{ asset('CZVR_Colour_Long.png') }}" alt="Vancouver FIR" style="height:32px; width:auto; margin-bottom:14px; opacity:0.9;">
+                    <p class="footer-tagline">Serving Canada's West Coast on the VATSIM network.</p>
+                    <div class="footer-socials mt-3">
+                        <a href="https://www.twitter.com/vancouverfir" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/czvrfir/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a data-toggle="modal" data-target="#discordTopModal" href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                        <a href="{{route('about')}}" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 mb-4 mb-md-0">
+                    <h6 class="footer-heading">Site</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{route('news')}}">News</a></li>
+                        <li><a href="{{route('events.index')}}">Events</a></li>
+                        <li><a href="{{route('roster.public')}}">Roster</a></li>
+                        <li><a href="{{url('/staff')}}">Staff</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-4 mb-md-0">
+                    <h6 class="footer-heading">Pilots</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{route('airports')}}">Airports</a></li>
+                        <li><a href="{{route('preferredrouting')}}">Preferred Routing</a></li>
+                        <li><a href="{{route('livemap')}}">YVR Live Map</a></li>
+                        <li><a href="{{route('vfr')}}">VFR</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-4 mb-md-0">
+                    <h6 class="footer-heading">Legal</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
+                        <li><a href="{{route('policies')}}">Policies</a></li>
+                        <li><a href="{{route('branding')}}">Branding</a></li>
+                        <li><a href="{{route('feedback.create')}}">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-4 mb-md-0">
+                    <h6 class="footer-heading">Network</h6>
+                    <ul class="footer-links">
+                        <li><a href="https://www.vatcan.ca" target="_blank">VATCAN</a></li>
+                        <li><a href="https://www.vatsim.net" target="_blank">VATSIM</a></li>
+                        <li><a href="{{route('booking')}}">ATC Booking</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom mt-4 pt-4">
+                <p>For Flight Simulation Use Only — Not to be used for real-world navigation.</p>
+                <p>Copyright © {{ date('Y') }} Vancouver FIR. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
