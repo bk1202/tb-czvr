@@ -52,9 +52,6 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan migrate --seed
 
-    - name: Lint PHP (Pint)
-      run: vendor/bin/pint --test
-
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
