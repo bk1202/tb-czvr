@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Notifications\Feedback;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+
+class NewControllerFeedback extends Notification
+{
+    use Queueable;
+
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct($feedback)
+    {
+        $this->feedback = $feedback;
+    }
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     */
+    public function via(object $notifiable): array
+    {
+        return ['mail'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->greeting('Hello,')
+            ->line('A user has submitted feedback on a Controller!')
+            ->line('User: '.$this->feedback->user->fullName('FLC'))
+            ->line('Email: '.$this->feedback->user->email)
+            ->line('Controller CID: '.$this->feedback->controller_cid)
+            ->line('Content: '.$this->feedback->content);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     */
+    public function toArray(object $notifiable): array
+    {
+        return [
+            //
+        ];
+    }
+}

@@ -1,0 +1,43 @@
+# Dependabot runs weekly and groups minor/patch updates so the repo doesn't get
+# flooded with single-package daily PRs that aren't validated against the app.
+# Major version bumps arrive as their own PRs so they get deliberate review.
+
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "npm"
+      - "dependencies"
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "php"
+      - "dependencies"
+    groups:
+      composer-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
