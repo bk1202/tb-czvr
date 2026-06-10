@@ -7,11 +7,18 @@ RUN apk add --no-cache \
     git \
     curl \
     libpng-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
     libzip-dev \
     oniguruma-dev \
     postgresql-dev \
     sqlite-dev \
+    icu-dev \
+    libsodium-dev \
+    libxml2-dev \
+    openssl-dev \
     supervisor \
+    && docker-php-ext-configure gd --with-jpeg --with-webp \
     && docker-php-ext-install \
         pdo \
         pdo_pgsql \
@@ -19,14 +26,23 @@ RUN apk add --no-cache \
         mbstring \
         zip \
         gd \
-        opcache
+        opcache \
+        bcmath \
+        intl \
+        sodium \
+        pcntl \
+        xml \
+        dom \
+        simplexml \
+        tokenizer \
+        fileinfo
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
-RUN composer update --no-dev --optimize-autoloader --no-scripts --no-interaction
+RUN composer update --no-dev --optimize-autoloader --no-scripts --no-interaction --ignore-platform-reqs
 
 COPY package.json package-lock.json ./
 RUN npm ci
