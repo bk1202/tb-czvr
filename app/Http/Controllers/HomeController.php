@@ -42,7 +42,7 @@ class HomeController extends Controller
             }
         }
         if (! $background) {
-            $background = (object)['url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Vancouver_skyline.jpg/1280px-Vancouver_skyline.jpg'];
+            $background = (object)['url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Vancouver_skyline.jpg/1280px-Vancouver_skyline.jpg', 'credit' => ''];
         }
 
         // News (cache for 5 min)
