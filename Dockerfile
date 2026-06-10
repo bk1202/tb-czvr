@@ -34,7 +34,6 @@ RUN apk add --no-cache \
         xml \
         dom \
         simplexml \
-        tokenizer \
         fileinfo
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
