@@ -41,7 +41,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
-RUN composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs || (composer diagnose; exit 1)
+RUN COMPOSER_MEMORY_LIMIT=-1 composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 COPY package.json package-lock.json ./
 RUN npm ci
