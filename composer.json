@@ -36,10 +36,6 @@
         "fakerphp/faker": "^1.23"
     },
     "autoload": {
-        "classmap": [
-            "database/seeders",
-            "database/factories"
-        ],
         "psr-4": {
             "App\\": "app/"
         },
