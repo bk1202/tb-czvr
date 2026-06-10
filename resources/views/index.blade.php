@@ -2,188 +2,180 @@
 
 @section('description', 'Welcome to Vancouver - located in the left of Canada on the VATSIM network!')
 
-<style>
-@media (min-width: 769px) {
-    .card-background {
-        height: 210px;
-    }
-}
-
-@media (max-width: 769px) {
-    .mobile-container {
-        padding: 15px !important;
-    }
-}
-
-.navbar .container {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-}
-</style>
-
 @section('content')
-        <link rel="stylesheet" type="text/css" href="{{ asset('/css/home.css') }}" />
-            <div class="winnipeg-blue"
-                style="z-index: -1; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background-image: url({{ $background->url }}); background-size: cover; background-position: center; animation: heroZoom 10s ease-in-out infinite alternate;">
-            </div>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/home.css') }}" />
 
-            <style>
-                @keyframes heroZoom {0% { transform: scale(1); }100% { transform: scale(1.03); }}
-            </style>
-
-            <div class="mobile-container container" style="text-align: center; padding-top: 30px; padding-bottom: 30px;">
-                <div style="display: inline-block; position: relative; z-index: 1; padding: 30px;">
-                    <h1 class="vancouver-text display-3" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); color: #fff;">
-                        <span class="corner">From Sea to Sky!</span>
-                    </h1>
-                    <h4 class="vancouver-text mt-2" style="text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.1);">
-                        <a href="#A" id="discoverMore" class="blue-text" style="color: #fff; text-decoration: none;">Come explore Canada's West Coast<i class="fas fa-arrow-down ml-2"></i></a>
-                    </h4>
-                    <small style="color: #fff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-                        <i>Screenshot by {{$background->credit}}</i>
-                    </small>
-                </div>
-            </div>
-
-            <div class="mobile-container container mt-4" style="padding: 90px" id="A">
-                <div class="row">
-                    <!-- First column -->
-                    <div class="col-md-6">
-                    <!-- Top Controllers this Month -->
-                    <div class="card card-background mb-4" style="opacity: 90%; height: 210px; display: flex; flex-direction: column; overflow-y: auto;">
-                        <div class="card-header card-hf-padding blue-text">
-                            <h2 class="font-weight-bold card-header-size text-center"><i class="fas fa-award mr-2"></i>Top Controllers this Month</h2>
-                        </div>
-                        <div class="card-body">
-                            @if(count($topControllersArray) == 0)
-                                <h5 class="text-colour text-center">No Data Yet!</h5>
-                            @endif
-                            @foreach($topControllersArray as $t)
-                                @if($t['time'] != 0)
-                                    <div class="badge w-100 d-flex justify-content-between align-items-center py-1 px-2 mb-1" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); font-weight: normal; opacity: 90%; background-color: {{$t['colour']}} !important; font-size: 0.7rem; background-image: linear-gradient(-45deg, rgba(255,255,255,0) 25%, rgba(0,0,0,0.15) 25%, rgba(0,0,0,0.15) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 75%, rgba(0,0,0,0.15) 75%, rgba(0,0,0,0.15) 100%); background-size: 20px 20px; border: 1px solid rgba(0, 0, 0, 0.1); box-shadow: 0 1px 3px rgba(0,0,0,0.7);">
-                                        <div>{{User::where('id', $t['cid'])->first()->fullName('FLC')}}</div>
-                                        <div>{{$t['time']}}</div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
+    {{-- Hero --}}
+    <div class="hero-section">
+        <div class="hero-bg" style="background-image: url({{ $background->url }})"></div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center" style="min-height: calc(100vh - 60px);">
+                <div class="col-lg-6 hero-left">
+                    <div class="hero-eyebrow">
+                        @if(count($finalPositions) > 0)
+                            <span class="hero-online-dot"></span>
+                            <span>{{ count($finalPositions) }} controller{{ count($finalPositions) > 1 ? 's' : '' }} online now</span>
+                        @else
+                            <span class="hero-offline-dot"></span>
+                            <span>No controllers online</span>
+                        @endif
                     </div>
+                    <h1 class="hero-title">From Sea<br>to Sky.</h1>
+                    <p class="hero-subtitle">Canada's West Coast on the VATSIM network — Vancouver FIR provides ATC from the Pacific coast to the Rockies.</p>
+                    <div class="hero-ctas">
+                        <a href="{{ route('booking') }}" class="btn btn-hero-primary">
+                            <i class="fas fa-calendar-check mr-2"></i>View Bookings
+                        </a>
+                        <a href="{{ route('roster.public') }}" class="btn btn-hero-secondary">
+                            <i class="fas fa-users mr-2"></i>Our Roster
+                        </a>
+                    </div>
+                    <small class="hero-credit">Photo by {{ $background->credit }}</small>
                 </div>
+            </div>
+        </div>
+        <a href="#homepage-content" class="hero-scroll-cue" aria-label="Scroll down">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </div>
 
-                <!-- Second column -->
-                <div class="col-md-6">
-                    <!-- Online Controllers -->
-                    <div class="card card-background mb-4" style="opacity: 90%; height: 210px; display: flex; flex-direction: column; overflow-y: auto;">
-                        <div class="card-header card-hf-padding blue-text">
-                            <h2 class="font-weight-bold blue-text card-header-size text-center"><i class="fas fa-user mr-2"></i>Online Controllers</h2>
+    {{-- Content panels --}}
+    <div class="hp-wrap container-fluid px-0" id="homepage-content">
+        <div class="container hp-container">
+
+            {{-- Live ATC strip --}}
+            <div class="hp-live-bar">
+                @if(count($finalPositions) > 0)
+                    <span class="hp-live-dot"></span>
+                    <span class="hp-live-word">Live</span>
+                    @foreach($finalPositions as $p)
+                        <span class="hp-ctrl-chip">
+                            <a href="{{ url('/roster/'.$p->cid) }}" class="hp-ctrl-link">
+                                <b>{{ $p->callsign }}</b>&nbsp;·&nbsp;{{ $p->name == $p->cid ? $p->name : $p->name }}
+                            </a>
+                        </span>
+                        @if(!$loop->last)<span class="hp-sep">·</span>@endif
+                    @endforeach
+                @else
+                    <span class="hp-offline-dot"></span>
+                    <span class="hp-live-word hp-live-word--off">No ATC online</span>
+                    <span class="hp-ctrl-chip"><a href="{{ route('booking') }}" class="hp-ctrl-link">Check upcoming bookings</a></span>
+                @endif
+            </div>
+
+            {{-- Main split: events + news --}}
+            <div class="hp-main-grid">
+                {{-- Left: featured event + upcoming --}}
+                <div class="hp-panel">
+                    <span class="hp-panel-label">Featured event</span>
+                    @if(count($nextEvents) > 0)
+                        @php
+                            $featured = $nextEvents->first();
+                            $fStart   = \Carbon\Carbon::parse($featured->start_timestamp);
+                            $fEnd     = \Carbon\Carbon::parse($featured->end_timestamp);
+                            $fLive    = \Carbon\Carbon::now()->between($fStart, $fEnd);
+                        @endphp
+                        <a href="{{ url('/events/'.$featured->slug) }}" class="hp-feat-title">{{ $featured->name }}</a>
+                        <div class="hp-feat-meta">
+                            <span><i class="fas fa-calendar-alt"></i> {{ $fStart->format('D M j · Hi') }}–{{ $fEnd->format('Hi') }}z</span>
                         </div>
-                        <div class="card-body">
-                            @if(count($finalPositions) == 0)
-                                <h5 class="text-colour text-center">No Controllers Online – See Controller <a class="text-white" href="https://booking.czvr.ca">Bookings!</a></h5>
-                            @endif
-                            @foreach($finalPositions as $p)
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <a href="https://czvr.ca/roster/{{$p->cid}}" target="_blank" class="text-colour">
-                                        @if($p->name == $p->cid)
-                                            <i class="fas fa-user-circle"></i>&nbsp;{{$p->name}}
-                                        @else
-                                            <i class="fas fa-user-circle"></i>&nbsp;{{$p->name}} {{$p->cid}}
-                                        @endif
-                                    </a>
-                                    <span class="badge main-colour">{{$p->callsign}}</span>
+                        @if($fLive)
+                            <span class="hp-badge hp-badge--live">Happening now</span>
+                        @else
+                            <a href="{{ url('/events/'.$featured->slug) }}" class="hp-text-link">Details <i class="fas fa-arrow-right"></i></a>
+                        @endif
+                    @else
+                        <p class="hp-empty">No upcoming events — check back soon.</p>
+                    @endif
+
+                    <div class="hp-inner-divider"></div>
+                    <span class="hp-panel-label">Upcoming</span>
+
+                    @if(count($nextEvents) > 1)
+                        <div class="hp-mini-events">
+                            @foreach($nextEvents->skip(1)->take(3) as $e)
+                                @php $eStart = \Carbon\Carbon::parse($e->start_timestamp); @endphp
+                                <div class="hp-mini-row">
+                                    <a href="{{ url('/events/'.$e->slug) }}" class="hp-mini-name">{{ $e->name }}</a>
+                                    <span class="hp-mini-date">{{ $eStart->format('M j') }}</span>
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    @else
+                        <p class="hp-empty">No further events scheduled.</p>
+                    @endif
                 </div>
-            </div>
 
-            <div class="row">
-                <!-- First column -->
-                <div class="col-md-6">
-                    <!-- Recent News -->
-                    <div class="card card-background mb-4" style="opacity: 90%; height: 210px; display: flex; flex-direction: column; overflow-y: auto;">
-                        <div class="card-header card-hf-padding blue-text">
-                            <h2 class="font-weight-bold card-header-size text-center"><i class="fas fa-newspaper mr-2"></i>Recent News</h2></a>
-                        </div>
-                        <div class="card-body">
-                            @if(count($news) == 0)
-                                <h5 class="text-colour text-center">No Current News!</h5>
-                            @endif
-                            @foreach($news as $n)
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="badge text-colour mr-2">{{$n->posted_on_pretty()}}</span>
-                                    <a href="{{url('/news').'/'.$n->slug}}" class="text-colour">{{$n->title}}</a>
+                {{-- Right: news --}}
+                <div class="hp-panel hp-panel--right">
+                    <span class="hp-panel-label">
+                        News
+                        <a href="{{ url('/news') }}" class="hp-panel-all">All news <i class="fas fa-arrow-right"></i></a>
+                    </span>
+                    @if(count($news) > 0)
+                        <div class="hp-news-list">
+                            @foreach($news->take(4) as $n)
+                                <div class="hp-news-row">
+                                    <span class="hp-news-date">{{ $n->posted_on_pretty() }}</span>
+                                    <a href="{{ url('/news/'.$n->slug) }}" class="hp-news-hed">{{ $n->title }}</a>
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    @else
+                        <p class="hp-empty">No recent news.</p>
+                    @endif
                 </div>
+            </div>
 
-                <!-- Second column -->
-                <div class="col-md-6">
-                    <!-- Upcoming Events -->
-                    <div class="card card-background mb-4" style="opacity: 90%; height: 210px; display: flex; flex-direction: column; overflow-y: auto;">
-                        <div class="card-header card-hf-padding blue-text">
-                            <h2 class="font-weight-bold card-header-size text-center"><i class="fas fa-calendar-alt mr-2"></i>Upcoming Events</h2>
-                        </div>
-                        <div class="card-body">
-                            @if(count($nextEvents) == 0)
-                                <h5 class="text-colour text-center">Stay tuned here for Upcoming Events!</h5>
-                            @endif
-                            @foreach($nextEvents as $e)
-                                @php
-                                    $now = \Carbon\Carbon::now();
-                                    $start = \Carbon\Carbon::parse($e->start_timestamp);
-                                    $end = \Carbon\Carbon::parse($e->end_timestamp);
-
-                                    $HappeningNow = $now->between($start, $end);
-                                @endphp
-
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <a href="{{ url('/events').'/'.$e->slug }}" class="text-colour">
-                                        {{$e->name}}
-                                    </a>
-                                    <span class="badge {{ $HappeningNow ? 'badge-success' : 'main-colour' }}">
-                                        {{ $HappeningNow ? 'Happening Now!' : $start->format('M d, Y H:i T') }}
+            {{-- Bottom split: controllers + weather --}}
+            <div class="hp-bottom-grid">
+                {{-- Controllers leaderboard --}}
+                <div class="hp-panel">
+                    <span class="hp-panel-label">Top controllers — {{ \Carbon\Carbon::now()->format('F') }}</span>
+                    @php $maxTime = collect($topControllersArray)->max('minutes') ?: 1; @endphp
+                    @if(count($topControllersArray) > 0)
+                        <div class="hp-ldr-list">
+                            @foreach(collect($topControllersArray)->where('time', '!=', 0)->take(4) as $i => $t)
+                                <div class="hp-ldr-row">
+                                    <span class="hp-ldr-rank {{ $i === 0 ? 'hp-ldr-rank--gold' : '' }}">{{ $i + 1 }}</span>
+                                    <span class="hp-ldr-name">
+                                        {{ \App\Models\Users\User::find($t['cid'])?->fullName('F') ?? '—' }}
                                     </span>
+                                    <div class="hp-ldr-bar-wrap">
+                                        <div class="hp-ldr-bar" style="width:{{ round(($t['minutes'] / $maxTime) * 100) }}%"></div>
+                                    </div>
+                                    <span class="hp-ldr-time">{{ $t['time'] }}</span>
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    @else
+                        <p class="hp-empty">No data yet this month.</p>
+                    @endif
+                </div>
+
+                {{-- Weather --}}
+                <div class="hp-panel hp-panel--right">
+                    <span class="hp-panel-label">Weather</span>
+                    @if(count($weather) > 0)
+                        <div class="hp-wx-list">
+                            @foreach($weather as $w)
+                                <div class="hp-wx-row">
+                                    <span class="hp-wx-icao">{{ $w->icao }}</span>
+                                    <span class="hp-wx-cat hp-wx-{{ strtolower($w->flight_category) }}">{{ $w->flight_category }}</span>
+                                    <span class="hp-wx-metar">{{ $w->raw_text }}</span>
+                                    @if(\Carbon\Carbon::make($w->observed) < \Carbon\Carbon::now()->subHours(2))
+                                        <span class="hp-wx-old">OLD</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="hp-empty">No weather data available.</p>
+                    @endif
                 </div>
             </div>
 
-            <!-- Weather Section -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-background" style="opacity: 90%; margin-bottom: 30px;">
-                        <div class="card-header card-hf-padding blue-text">
-                            <h2 class="font-weight-bold card-header-size text-center"><i class="fas fa-sun mr-2"></i>Weather</h2>
-                        </div>
-                        <div class="card-body">
-                            @if(count($weather) == 0)
-                                <h5 class="text-colour text-center">No Weather Data!</h5>
-                            @endif
-                            <div class="row">
-                                @foreach($weather as $w)
-                                <div class="col-md-6 mb-3">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <h5 class="mb-0 mr-2">{{$w->icao}} - {{$w->station->name}}</h5>
-                                        <span class="badge {{$w->flight_category}}">{{$w->flight_category}}</span>
-                                        @if(Carbon\Carbon::make($w->observed) < Carbon\Carbon::now()->subHours(2))
-                                            <span class="badge grey ml-1">OUTDATED</span>
-                                        @endif
-                                    </div>
-                                    <div class="small">{{$w->raw_text}}</div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @stop
