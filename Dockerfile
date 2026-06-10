@@ -50,7 +50,6 @@ RUN for i in 1 2 3 4 5; do \
 RUN npm ci
 
 RUN npm run build \
-    && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache \
     && chown -R www-data:www-data storage bootstrap/cache
