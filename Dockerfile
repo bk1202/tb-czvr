@@ -40,13 +40,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY composer.json composer.lock ./
+COPY . .
+
 RUN COMPOSER_MEMORY_LIMIT=-1 composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
-COPY package.json package-lock.json ./
 RUN npm ci
-
-COPY . .
 
 RUN npm run build \
     && php artisan config:cache \
