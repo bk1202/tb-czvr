@@ -42,7 +42,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN COMPOSER_MEMORY_LIMIT=-1 composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 RUN npm ci
 
