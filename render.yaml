@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: tb-czvr
+    runtime: php
+    buildCommand: bash build.sh
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://tb-czvr.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: tb-czvr-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: tb-czvr-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: tb-czvr-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: tb-czvr-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: tb-czvr-db
+          property: password
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
+
+databases:
+  - name: tb-czvr-db
+    plan: free
