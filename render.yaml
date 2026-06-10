@@ -1,9 +1,8 @@
 services:
   - type: web
     name: tb-czvr
-    runtime: php
-    buildCommand: bash build.sh
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_ENV
         value: production
