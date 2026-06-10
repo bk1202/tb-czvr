@@ -22,7 +22,8 @@ class HomeController extends Controller
         // Weather (from cache)
         $weather = Cache::get('weather.data', []);
 
-        $banner = DB::table('core_info')->first();
+        $banner = DB::table('core_info')->first()
+            ?? (object)['banner' => '', 'bannerLink' => '', 'bannerMode' => ''];
 
         // Load cached data or default to empty collections
         $finalPositions = Cache::get('vatsim.controllers', []);
@@ -39,6 +40,9 @@ class HomeController extends Controller
             } catch (Exception $e) {
                 \Log::error('Failed to fetch background image: '.$e->getMessage());
             }
+        }
+        if (! $background) {
+            $background = (object)['url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Vancouver_skyline.jpg/1280px-Vancouver_skyline.jpg'];
         }
 
         // News (cache for 5 min)
