@@ -1,3 +1,5 @@
+providers = ["php"]
+
 [phases.setup]
 aptPkgs = ["libpq-dev", "libzip-dev", "libpng-dev", "libjpeg-dev", "libwebp-dev", "libicu-dev", "libsodium-dev", "libxml2-dev", "unzip", "git"]
 
