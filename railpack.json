@@ -1,0 +1,5 @@
+{
+  "php": {
+    "extensions": ["zip", "gd", "bcmath", "intl", "sodium", "pcntl", "simplexml"]
+  }
+}
