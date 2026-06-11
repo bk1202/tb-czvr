@@ -1,6 +1,5 @@
-providers = ["php"]
-
 [phases.setup]
+nixPkgs = ["(php84.withExtensions (pe: pe.enabled ++ []))", "nginx", "libmysqlclient", "php84Packages.composer"]
 aptPkgs = ["libpq-dev", "libzip-dev", "libpng-dev", "libjpeg-dev", "libwebp-dev", "libicu-dev", "libsodium-dev", "libxml2-dev", "unzip", "git"]
 
 [phases.install]
