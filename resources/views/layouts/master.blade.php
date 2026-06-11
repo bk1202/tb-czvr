@@ -113,6 +113,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdown01">
                             <a class="dropdown-item" href="{{route('booking')}}">ATC Booking</a>
                             <a class="dropdown-item" href="{{route('roster.public')}}">Roster</a>
+                            <a class="dropdown-item {{ Request::is('policies') ? 'active white-text' : '' }}" href="{{route('policies')}}">Policies</a>
                             @if(auth()->check() && auth()->user()->permissions >= 3)
                                 <a class="dropdown-item {{ Request::is('roster') ? 'active white-text' : '' }}" href="{{route('roster.index')}}">Manage Roster</a>
                             @endif
@@ -134,7 +135,6 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publications <i class="fas fa-chevron-down nav-chevron"></i></a>
                             <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                <a class="dropdown-item {{ Request::is('policies') ? 'active white-text' : '' }}" href="{{route('policies')}}">Policies</a>
                                 <a class="dropdown-item {{ Request::is('meetingminutes') ? 'active white-text' : '' }}" href="{{route('meetingminutes')}}">Meeting Minutes</a>
                                 <a class="dropdown-item {{ Request::is('privacy') ? 'active white-text' : '' }}" href="{{route('privacy')}}">Privacy Policy</a>
                             </div>
@@ -205,37 +205,39 @@
             </div>
         </nav>
     </header>
+    <!--End header-->
+    {{-- Toast container --}}
+    <div id="toast-container" aria-live="polite"></div>
     @if ($errors->any())
-        <div class="alert alert-danger" style="margin: 0; border-radius: 0; border: none;">
-            <div class="container">
-                @foreach ($errors->all() as $error)
-                    {{ $error }} <br>
-                @endforeach
+        @foreach ($errors->all() as $error)
+            <div class="czvr-toast toast-error" data-autohide="true">
+                <i class="fas fa-exclamation-circle toast-icon"></i>
+                <span>{!! $error !!}</span>
+                <button class="toast-close" aria-label="Close">&times;</button>
             </div>
-        </div>
+        @endforeach
     @endif
     @if (\Session::has('success'))
-        <div class="alert alert-success" style="margin: 0; border-radius: 0; border: none;">
-            <div class="container">
-                {!! \Session::get('success') !!}
-            </div>
+        <div class="czvr-toast toast-success" data-autohide="true">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span>{!! \Session::get('success') !!}</span>
+            <button class="toast-close" aria-label="Close">&times;</button>
         </div>
     @endif
     @if (\Session::has('error'))
-        <div class="alert alert-danger" style="margin: 0; border-radius: 0; border: none;">
-            <div class="container">
-                {!! \Session::get('error') !!}
-            </div>
+        <div class="czvr-toast toast-error" data-autohide="true">
+            <i class="fas fa-exclamation-circle toast-icon"></i>
+            <span>{!! \Session::get('error') !!}</span>
+            <button class="toast-close" aria-label="Close">&times;</button>
         </div>
     @endif
     @if (\Session::has('info'))
-        <div class="alert alert-info" style="margin: 0; border-radius: 0; border: none;">
-            <div class="container">
-                {!! \Session::get('info') !!}
-            </div>
+        <div class="czvr-toast toast-info" data-autohide="true">
+            <i class="fas fa-info-circle toast-icon"></i>
+            <span>{!! \Session::get('info') !!}</span>
+            <button class="toast-close" aria-label="Close">&times;</button>
         </div>
     @endif
-    <!--End header-->
     <!--SIDEBAR-->
     <div class="sidebar" id="cywgSidebar">
       @yield('sidebar')
@@ -417,6 +419,28 @@
     </script>
     <script>
         $("blockquote").addClass('blockquote');
+    </script>
+    <script>
+        // Toast notifications
+        (function() {
+            var toasts = document.querySelectorAll('.czvr-toast');
+            var container = document.getElementById('toast-container');
+            toasts.forEach(function(toast, i) {
+                container.appendChild(toast);
+                setTimeout(function() { toast.classList.add('show'); }, 100 + i * 150);
+                toast.querySelector('.toast-close').addEventListener('click', function() {
+                    dismissToast(toast);
+                });
+                if (toast.dataset.autohide === 'true') {
+                    setTimeout(function() { dismissToast(toast); }, 4500 + i * 150);
+                }
+            });
+            function dismissToast(toast) {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(function() { toast.remove(); }, 350);
+            }
+        })();
     </script>
     <script>
         // Dark/light mode toggle
