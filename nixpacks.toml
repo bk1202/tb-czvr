@@ -1,8 +1,10 @@
 [phases.setup]
-aptPkgs = ["libpq-dev", "libzip-dev", "libpng-dev", "libjpeg-dev", "libwebp-dev", "libicu-dev", "libsodium-dev", "libxml2-dev", "unzip"]
+aptPkgs = ["libpq-dev", "libzip-dev", "libpng-dev", "libjpeg-dev", "libwebp-dev", "libicu-dev", "libsodium-dev", "libxml2-dev", "unzip", "git"]
 
 [phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs"]
+cmds = [
+  "for i in 1 2 3 4 5; do COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs && break; echo \"Attempt $i failed, retrying...\"; sleep 10; done"
+]
 
 [start]
 cmd = "php artisan config:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
