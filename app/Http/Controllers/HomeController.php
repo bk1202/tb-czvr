@@ -143,6 +143,49 @@ class HomeController extends Controller
             \Log::error('Failed to update banner: '.$e->getMessage());
         }
 
+        // Placeholder data — shown when DB/cache is empty (testbed / fresh deploy)
+        if (empty($finalPositions)) {
+            $finalPositions = [
+                (object)['callsign' => 'CZVR_CTR',  'cid' => '1301755', 'name' => 'Alex Thompson'],
+                (object)['callsign' => 'CYVR_APP',  'cid' => '1456234', 'name' => 'Sarah Kim'],
+                (object)['callsign' => 'CYVR_TWR',  'cid' => '1567890', 'name' => 'Mike Davies'],
+            ];
+        }
+
+        if (empty($weather)) {
+            $weather = [
+                (object)['icao' => 'CYVR', 'flight_category' => 'VFR',  'raw_text' => 'CYVR 101900Z 27012KT 15SM FEW035 BKN250 13/06 A2991', 'observed' => now()->toISOString()],
+                (object)['icao' => 'CYXX', 'flight_category' => 'MVFR', 'raw_text' => 'CYXX 101900Z 26008KT 5SM BR OVC010 09/07 A2989',          'observed' => now()->toISOString()],
+                (object)['icao' => 'CYPK', 'flight_category' => 'VFR',  'raw_text' => 'CYPK 101900Z 27010KT 15SM SCT040 12/05 A2992',             'observed' => now()->toISOString()],
+                (object)['icao' => 'CYYJ', 'flight_category' => 'IFR',  'raw_text' => 'CYYJ 101900Z 25015G25KT 2SM -RA OVC005 08/07 A2985',       'observed' => now()->toISOString()],
+            ];
+        }
+
+        if ($nextEvents->isEmpty()) {
+            $nextEvents = collect([
+                (object)['name' => 'Cross the Pond Westbound',   'start_timestamp' => now()->addDays(3)->format('Y-m-d H:i:s'),  'end_timestamp' => now()->addDays(3)->addHours(4)->format('Y-m-d H:i:s'),  'slug' => 'cross-the-pond'],
+                (object)['name' => 'FNO: YVR Friday Night Ops',  'start_timestamp' => now()->addDays(7)->format('Y-m-d H:i:s'),  'end_timestamp' => now()->addDays(7)->addHours(3)->format('Y-m-d H:i:s'),  'slug' => 'fno-yvr'],
+                (object)['name' => 'Snowstorm Saturday',         'start_timestamp' => now()->addDays(14)->format('Y-m-d H:i:s'), 'end_timestamp' => now()->addDays(14)->addHours(4)->format('Y-m-d H:i:s'), 'slug' => 'snowstorm-saturday'],
+            ]);
+        }
+
+        if ($news->isEmpty()) {
+            $news = collect([
+                (object)['title' => 'Vancouver FIR Modernized Website Launches', 'slug' => 'modernized-website',  '_date' => 'Jun 10, 2026'],
+                (object)['title' => 'New ATC Booking System Now Live',           'slug' => 'new-booking-system',   '_date' => 'Jun 5, 2026'],
+                (object)['title' => 'Cross the Pond 2026 Dates Announced',       'slug' => 'cross-the-pond-2026',  '_date' => 'May 28, 2026'],
+            ]);
+        }
+
+        if (empty($topControllersArray)) {
+            $topControllersArray = [
+                ['cid' => '1301755', 'name' => 'Alex Thompson', 'time' => '42:15', 'minutes' => 2535, 'colour' => '#6CC24A'],
+                ['cid' => '1456234', 'name' => 'Sarah Kim',     'time' => '38:30', 'minutes' => 2310, 'colour' => '#B2D33C'],
+                ['cid' => '1567890', 'name' => 'Mike Davies',   'time' => '29:45', 'minutes' => 1785, 'colour' => '#E3B031'],
+                ['cid' => '1678901', 'name' => 'Jordan Lee',    'time' => '21:00', 'minutes' => 1260, 'colour' => '#F15025'],
+            ];
+        }
+
         return view('index', compact('finalPositions', 'news', 'nextEvents', 'topControllersArray', 'weather', 'background', 'banner'));
     }
 }

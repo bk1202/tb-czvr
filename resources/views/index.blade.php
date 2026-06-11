@@ -4,6 +4,11 @@
 
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/home.css') }}" />
+    <style>
+        .hp-wx-strip { display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px 0 14px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:20px; }
+        .hp-wx-chip  { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.05); border-radius:6px; padding:4px 10px; font-size:.78rem; }
+        .hp-wx-metar { color:rgba(255,255,255,.5); font-size:.72rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+    </style>
 
     {{-- Hero --}}
     <div class="hero-section">
@@ -64,6 +69,20 @@
                 @endif
             </div>
 
+            {{-- Weather strip --}}
+            @if(count($weather) > 0)
+            <div class="hp-wx-strip">
+                <span class="hp-panel-label" style="margin-right:12px">Weather</span>
+                @foreach($weather as $w)
+                    <div class="hp-wx-chip">
+                        <span class="hp-wx-icao">{{ $w->icao }}</span>
+                        <span class="hp-wx-cat hp-wx-{{ strtolower($w->flight_category) }}">{{ $w->flight_category }}</span>
+                        <span class="hp-wx-metar">{{ $w->raw_text }}</span>
+                    </div>
+                @endforeach
+            </div>
+            @endif
+
             {{-- Main split: events + news --}}
             <div class="hp-main-grid">
                 {{-- Left: featured event + upcoming --}}
@@ -117,7 +136,7 @@
                         <div class="hp-news-list">
                             @foreach($news->take(4) as $n)
                                 <div class="hp-news-row">
-                                    <span class="hp-news-date">{{ $n->posted_on_pretty() }}</span>
+                                    <span class="hp-news-date">{{ method_exists($n, 'posted_on_pretty') ? $n->posted_on_pretty() : ($n->_date ?? '') }}</span>
                                     <a href="{{ url('/news/'.$n->slug) }}" class="hp-news-hed">{{ $n->title }}</a>
                                 </div>
                             @endforeach
@@ -128,52 +147,28 @@
                 </div>
             </div>
 
-            {{-- Bottom split: controllers + weather --}}
-            <div class="hp-bottom-grid">
-                {{-- Controllers leaderboard --}}
-                <div class="hp-panel">
-                    <span class="hp-panel-label">Top controllers — {{ \Carbon\Carbon::now()->format('F') }}</span>
-                    @php $maxTime = collect($topControllersArray)->max('minutes') ?: 1; @endphp
-                    @if(count($topControllersArray) > 0)
-                        <div class="hp-ldr-list">
-                            @foreach(collect($topControllersArray)->where('time', '!=', 0)->take(4) as $i => $t)
-                                <div class="hp-ldr-row">
-                                    <span class="hp-ldr-rank {{ $i === 0 ? 'hp-ldr-rank--gold' : '' }}">{{ $i + 1 }}</span>
-                                    <span class="hp-ldr-name">
-                                        {{ \App\Models\Users\User::find($t['cid'])?->fullName('F') ?? '—' }}
-                                    </span>
-                                    <div class="hp-ldr-bar-wrap">
-                                        <div class="hp-ldr-bar" style="width:{{ round(($t['minutes'] / $maxTime) * 100) }}%"></div>
-                                    </div>
-                                    <span class="hp-ldr-time">{{ $t['time'] }}</span>
+            {{-- Controllers leaderboard --}}
+            <div class="hp-panel" style="margin-top:0">
+                <span class="hp-panel-label">Top controllers — {{ \Carbon\Carbon::now()->format('F') }}</span>
+                @php $maxTime = collect($topControllersArray)->max('minutes') ?: 1; @endphp
+                @if(count($topControllersArray) > 0)
+                    <div class="hp-ldr-list">
+                        @foreach(collect($topControllersArray)->where('time', '!=', 0)->take(4) as $i => $t)
+                            <div class="hp-ldr-row">
+                                <span class="hp-ldr-rank {{ $i === 0 ? 'hp-ldr-rank--gold' : '' }}">{{ $i + 1 }}</span>
+                                <span class="hp-ldr-name">
+                                    {{ $t['name'] ?? (\App\Models\Users\User::find($t['cid'])?->fullName('F') ?? '—') }}
+                                </span>
+                                <div class="hp-ldr-bar-wrap">
+                                    <div class="hp-ldr-bar" style="width:{{ round((($t['minutes'] ?? 0) / $maxTime) * 100) }}%"></div>
                                 </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="hp-empty">No data yet this month.</p>
-                    @endif
-                </div>
-
-                {{-- Weather --}}
-                <div class="hp-panel hp-panel--right">
-                    <span class="hp-panel-label">Weather</span>
-                    @if(count($weather) > 0)
-                        <div class="hp-wx-list">
-                            @foreach($weather as $w)
-                                <div class="hp-wx-row">
-                                    <span class="hp-wx-icao">{{ $w->icao }}</span>
-                                    <span class="hp-wx-cat hp-wx-{{ strtolower($w->flight_category) }}">{{ $w->flight_category }}</span>
-                                    <span class="hp-wx-metar">{{ $w->raw_text }}</span>
-                                    @if(\Carbon\Carbon::make($w->observed) < \Carbon\Carbon::now()->subHours(2))
-                                        <span class="hp-wx-old">OLD</span>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="hp-empty">No weather data available.</p>
-                    @endif
-                </div>
+                                <span class="hp-ldr-time">{{ $t['time'] }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="hp-empty">No data yet this month.</p>
+                @endif
             </div>
 
         </div>
