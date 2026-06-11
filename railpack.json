@@ -1,5 +1,7 @@
 {
-  "php": {
-    "extensions": ["zip", "gd", "bcmath", "intl", "sodium", "pcntl", "simplexml"]
+  "steps": {
+    "install:composer": {
+      "cmds": ["composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-reqs"]
+    }
   }
 }
