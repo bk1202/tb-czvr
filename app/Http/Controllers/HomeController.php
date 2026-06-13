@@ -22,8 +22,13 @@ class HomeController extends Controller
         // Weather (from cache)
         $weather = Cache::get('weather.data', []);
 
-        $banner = DB::table('core_info')->first()
-            ?? (object)['banner' => '', 'bannerLink' => '', 'bannerMode' => ''];
+        try {
+            $banner = DB::table('core_info')->first()
+                ?? (object)['banner' => '', 'bannerLink' => '', 'bannerMode' => ''];
+        } catch (Exception $e) {
+            \Log::error('Failed to fetch banner: '.$e->getMessage());
+            $banner = (object)['banner' => '', 'bannerLink' => '', 'bannerMode' => ''];
+        }
 
         // Load cached data or default to empty collections
         $finalPositions = Cache::get('vatsim.controllers', []);

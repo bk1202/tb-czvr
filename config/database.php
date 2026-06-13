@@ -76,6 +76,9 @@ return [
             'prefix_indexes' => true,
             'schema' => 'public',
             'sslmode' => 'prefer',
+            'options' => [
+                'connect_timeout' => 5,
+            ],
         ],
 
         'sqlsrv' => [
