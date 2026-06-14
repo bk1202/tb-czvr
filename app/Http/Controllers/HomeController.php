@@ -170,7 +170,7 @@ class HomeController extends Controller
             $nextEvents = collect([
                 (object)['name' => 'Cross the Pond Westbound',   'start_timestamp' => now()->addDays(3)->format('Y-m-d H:i:s'),  'end_timestamp' => now()->addDays(3)->addHours(4)->format('Y-m-d H:i:s'),  'slug' => 'cross-the-pond'],
                 (object)['name' => 'FNO: YVR Friday Night Ops',  'start_timestamp' => now()->addDays(7)->format('Y-m-d H:i:s'),  'end_timestamp' => now()->addDays(7)->addHours(3)->format('Y-m-d H:i:s'),  'slug' => 'fno-yvr'],
-                (object)['name' => 'Snowstorm Saturday',         'start_timestamp' => now()->addDays(14)->format('Y-m-d H:i:s'), 'end_timestamp' => now()->addDays(14)->addHours(4)->format('Y-m-d H:i:s'), 'slug' => 'snowstorm-saturday'],
+                (object)['name' => 'Raincoast Saturday',         'start_timestamp' => now()->addDays(14)->format('Y-m-d H:i:s'), 'end_timestamp' => now()->addDays(14)->addHours(4)->format('Y-m-d H:i:s'), 'slug' => 'snowstorm-saturday'],
             ]);
         }
 
