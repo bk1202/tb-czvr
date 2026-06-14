@@ -47,17 +47,20 @@ class LoginController extends Controller
         // Written by Harrison Scott
         $http = new Client;
 
+        $tokenUrl = config('connect.url').'/oauth/token';
+        $tokenParams = [
+            'grant_type' => 'authorization_code',
+            'client_id' => config('connect.client_id'),
+            'client_secret' => config('connect.secret'),
+            'redirect_uri' => config('connect.redirect'),
+            'code' => $request->code,
+        ];
+        \Log::debug('CONNECT token request', ['url' => $tokenUrl, 'params' => array_merge($tokenParams, ['client_secret' => '***'])]);
+
         try {
-            $response = $http->post(config('connect.url').'/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'authorization_code',
-                    'client_id' => config('connect.client_id'),
-                    'client_secret' => config('connect.secret'),
-                    'redirect_uri' => config('connect.redirect'),
-                    'code' => $request->code,
-                ],
-            ]);
+            $response = $http->post($tokenUrl, ['form_params' => $tokenParams]);
         } catch (ClientException $e) {
+            \Log::error('CONNECT token error', ['body' => (string) $e->getResponse()->getBody()]);
             return redirect()->route('index')->with('error-modal', (string) $e->getResponse()->getBody());
         }
 
