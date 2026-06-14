@@ -151,9 +151,9 @@ class HomeController extends Controller
         // Placeholder data — shown when DB/cache is empty (testbed / fresh deploy)
         if (empty($finalPositions)) {
             $finalPositions = [
-                (object)['callsign' => 'CZVR_CTR',  'cid' => '1301755', 'name' => 'Alex Thompson'],
-                (object)['callsign' => 'CYVR_APP',  'cid' => '1456234', 'name' => 'Sarah Kim'],
-                (object)['callsign' => 'CYVR_TWR',  'cid' => '1567890', 'name' => 'Mike Davies'],
+                (object)['callsign' => 'CZVR_CTR',  'cid' => '1301755', 'name' => 'Spencer'],
+                (object)['callsign' => 'CYVR_APP',  'cid' => '1456234', 'name' => 'Sean'],
+                (object)['callsign' => 'CYVR_TWR',  'cid' => '1567890', 'name' => 'Alex'],
             ];
         }
 
@@ -184,10 +184,10 @@ class HomeController extends Controller
 
         if (empty($topControllersArray)) {
             $topControllersArray = [
-                ['cid' => '1301755', 'name' => 'Alex Thompson', 'time' => '42:15', 'minutes' => 2535, 'colour' => '#6CC24A'],
-                ['cid' => '1456234', 'name' => 'Sarah Kim',     'time' => '38:30', 'minutes' => 2310, 'colour' => '#B2D33C'],
-                ['cid' => '1567890', 'name' => 'Mike Davies',   'time' => '29:45', 'minutes' => 1785, 'colour' => '#E3B031'],
-                ['cid' => '1678901', 'name' => 'Jordan Lee',    'time' => '21:00', 'minutes' => 1260, 'colour' => '#F15025'],
+                ['cid' => '1301755', 'name' => 'Spencer', 'time' => '42:15', 'minutes' => 2535, 'colour' => '#6CC24A'],
+                ['cid' => '1456234', 'name' => 'Sean',    'time' => '38:30', 'minutes' => 2310, 'colour' => '#B2D33C'],
+                ['cid' => '1567890', 'name' => 'Alex',    'time' => '29:45', 'minutes' => 1785, 'colour' => '#E3B031'],
+                ['cid' => '1678901', 'name' => 'Adam',    'time' => '21:00', 'minutes' => 1260, 'colour' => '#F15025'],
             ];
         }
 
