@@ -32,9 +32,13 @@ class AppServiceProvider extends ServiceProvider
         // Share site-wide settings with every view, cached for 5 minutes so
         // layouts don't hit the DB multiple times per request.
         View::composer('*', function ($view) {
-            $settings = Cache::remember('core_settings', 300, function () {
-                return CoreSettings::find(1);
-            });
+            try {
+                $settings = Cache::remember('core_settings', 300, function () {
+                    return CoreSettings::find(1);
+                });
+            } catch (\Exception $e) {
+                $settings = null;
+            }
             $view->with('coreSettings', $settings);
         });
     }
