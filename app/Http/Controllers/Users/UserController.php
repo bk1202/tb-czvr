@@ -39,7 +39,11 @@ class UserController extends Controller
         }
         $user->init = 1;
         $user->save();
-        $user->notify(new WelcomeNewUser($user));
+        try {
+            $user->notify(new WelcomeNewUser($user));
+        } catch (\Exception $e) {
+            \Log::error('WelcomeNewUser notification failed: '.$e->getMessage());
+        }
 
         return redirect('/dashboard')->with('success', 'Welcome to Vancouver, '.$user->fname.'! We are glad to have you on board!');
     }
