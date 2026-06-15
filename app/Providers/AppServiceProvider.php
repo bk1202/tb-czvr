@@ -18,29 +18,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(function (SocialiteWasCalled $event) {
-            $event->extendSocialite('discord', Provider::class);
-        });
+        // Extend Socialite for Discord
+        Event::listen(SocialiteWasCalled::class, [Provider::class, 'handle']);
 
-        if ($this->app->environment('production')) {
-            if (config('app.url')) {
-                URL::forceRootUrl(config('app.url'));
-            }
+        // Set default URL options for HTTPS if needed
+        if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
 
-        // Share site-wide settings with every view, cached for 5 minutes so
-        // layouts don't hit the DB multiple times per request.
+        // Ensure that the default timezone is set correctly
+        date_default_timezone_set(config('app.timezone', 'UTC'));
+
+        // Bootstrap any package services
+        $this->bootSocialite();
+
+        // Boot your custom view composers or other bindings
         View::composer('*', function ($view) {
-            try {
-                $settings = Cache::remember('core_settings', 300, function () {
-                    return CoreSettings::find(1);
-                });
-            } catch (\Exception $e) {
-                $settings = null;
-            }
-            $view->with('coreSettings', $settings);
+            // Example: Share data with all views
+            $view->with('site_name', config('app.name'));
         });
+    }
+
+    protected function bootSocialite()
+    {
+        Event::listen(SocialiteWasCalled::class, [Provider::class, 'handle']);
     }
 
     /**
@@ -48,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register your service providers here
     }
 }
+
