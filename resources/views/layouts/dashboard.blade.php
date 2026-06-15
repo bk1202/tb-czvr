@@ -64,6 +64,40 @@
         <script src="{{ asset('js/jquery.validate.min.js') }}" defer></script>
         <script src="{{ asset('js/jquery.cssemoticons.js') }}" defer></script>
         <script src="{{ asset('introjs/intro.min.js') }}" defer></script>
+        <style>
+            /* Match backend pages to the redesigned frontend vibe */
+            .blue-text { color: #6CC24A !important; }
+            .card {
+                background: linear-gradient(135deg, #2a2a2a 0%, #232323 100%) !important;
+                border: 1px solid rgba(108,194,74,0.08) !important;
+                border-radius: 8px !important;
+            }
+            .card-body { background: transparent !important; }
+            .card-header {
+                background: rgba(108,194,74,0.07) !important;
+                border-bottom: 1px solid rgba(108,194,74,0.12) !important;
+            }
+            .backend-page-header {
+                padding: 28px 0 20px;
+                border-bottom: 1px solid rgba(108,194,74,0.15);
+                margin-bottom: 28px;
+            }
+            .backend-page-header h1 {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #fff;
+                margin: 0;
+            }
+            .backend-page-header .page-subtitle {
+                color: rgba(255,255,255,0.45);
+                font-size: 0.85rem;
+                margin-top: 4px;
+            }
+            .table { color: #e6e8e6 !important; }
+            .table thead th { border-color: rgba(108,194,74,0.15) !important; color: #6CC24A; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .05em; }
+            .table td, .table th { border-color: rgba(255,255,255,0.06) !important; }
+            .badge-success, .btn-success { background-color: #6CC24A !important; border-color: #6CC24A !important; }
+        </style>
     </head>
     <body class="background">
     <!--Header-->
