@@ -13,43 +13,33 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // Extend Socialite for Discord
-        Event::listen(SocialiteWasCalled::class, [Provider::class, 'handle']);
+        Event::listen(function (SocialiteWasCalled $event) {
+            $event->extendSocialite('discord', Provider::class);
+        });
 
-        // Set default URL options for HTTPS if needed
-        if (config('app.env') === 'production') {
+        if ($this->app->environment('production')) {
+            if (config('app.url')) {
+                URL::forceRootUrl(config('app.url'));
+            }
             URL::forceScheme('https');
         }
 
-        // Ensure that the default timezone is set correctly
-        date_default_timezone_set(config('app.timezone', 'UTC'));
-
-        // Bootstrap any package services
-        $this->bootSocialite();
-
-        // Boot your custom view composers or other bindings
         View::composer('*', function ($view) {
-            // Example: Share data with all views
-            $view->with('site_name', config('app.name'));
+            try {
+                $settings = Cache::remember('core_settings', 300, function () {
+                    return CoreSettings::find(1);
+                });
+            } catch (\Exception $e) {
+                $settings = null;
+            }
+            $view->with('coreSettings', $settings);
         });
     }
 
-    protected function bootSocialite()
-    {
-        Event::listen(SocialiteWasCalled::class, [Provider::class, 'handle']);
-    }
-
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        // Register your service providers here
+        //
     }
 }
-
