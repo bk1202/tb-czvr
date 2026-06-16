@@ -38,8 +38,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Booking Subdomain
-Route::group(['domain' => 'booking.czvr.ca'], function () {
+// Booking
+Route::prefix('booking')->group(function () {
     // Public Booking
     Route::get('/', [BookingController::class, 'indexPublic'])->name('booking');
 
@@ -56,8 +56,8 @@ Route::group(['domain' => 'booking.czvr.ca'], function () {
     });
 });
 
-// Training Subdomain
-Route::group(['domain' => 'training.czvr.ca'], function () {
+// Training
+Route::prefix('training')->group(function () {
     // Index
     Route::get('/', [TrainingController::class, 'index'])->name('training.index');
     Route::post('/trainingtimes', [TrainingController::class, 'editTrainingTime'])->middleware('staff')->name('waittime.edit');

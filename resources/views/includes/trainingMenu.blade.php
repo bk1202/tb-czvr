@@ -21,11 +21,11 @@
             <li>
                 <a class="nav-link" href="{{route('training.instructingsessions.index')}}">Instructing Sessions</a>
             </li>
-            @if (auth()->user()->permissions >= 3)
+            {{-- @if (auth()->user()->permissions >= 3)
             <li class="nav-item">
                 <a class="nav-link" href="{{route('training.instructors')}}">Instructors</a>
             </li>
-            @endif
+            @endif --}}
             <li class="nav-item">
                 <a class="nav-link" href="{{route('training.resources')}}">Resources</a>
             </li>
