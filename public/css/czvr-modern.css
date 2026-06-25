@@ -187,6 +187,23 @@ body.light-mode .navbar-toggler-icon {
     .navbar .nav-link {
         padding: 0.6rem 0.75rem !important;
     }
+
+    /* Prevent dropdown menus from clipping/overlapping on mobile */
+    .navbar .dropdown-menu {
+        position: static !important;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 0 0 0.75rem !important;
+    }
+
+    .navbar .dropdown-item {
+        padding: 0.4rem 1.1rem !important;
+        font-size: 0.82rem;
+    }
 }
 
 /* User avatar pill in navbar */
@@ -591,6 +608,7 @@ body.light-mode .navbar-toggler-icon {
         max-height: 600px;
         opacity: 1;
         transform: translateY(0);
+        overflow-y: auto;
     }
 
     /* Stagger nav items on mobile open */
